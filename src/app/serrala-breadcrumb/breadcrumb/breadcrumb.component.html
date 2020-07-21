@@ -1,8 +1,17 @@
-*BreadCrumbs
-<ol class="breadcrumb">
-  <li *ngFor="let breadcrumb of breadcrumbs">
-    <a [routerLink]="breadcrumb.url" routerLinkActive="router-link-active">
-      {{ breadcrumb.label }}
-    </a>
-  </li>
-</ol>
+<div class="breadcrumb-nav">
+  <div class="breadcrumb">
+    <div *ngFor="let breadcrumb of breadcrumbs" class="breadcrumb-link">
+      <span
+        class="previous"
+        [routerLink]="breadcrumb.url"
+        routerLinkActive="router-link-active"
+      >
+        {{ breadcrumb.label }}
+      </span>
+      &nbsp; /
+    </div>
+    <div class="breadcrumb-link">
+      <span> {{ currentComponent.label }}</span>
+    </div>
+  </div>
+</div>

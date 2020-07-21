@@ -10,7 +10,7 @@ import { DemoBreadCrumbService } from '../breadcrumb.service';
 })
 export class BreadcrumbComponent implements OnInit {
   public breadcrumbs: BreadCrumb[];
-
+  public currentComponent: BreadCrumb;
   constructor(
     private activatedRoute: ActivatedRoute,
     private breadcrumbService: DemoBreadCrumbService,
@@ -27,6 +27,11 @@ export class BreadcrumbComponent implements OnInit {
     this.breadcrumbs = this.breadcrumbService.buildBreadCrumb(
       this.activatedRoute.root
     );
+
+    if (this.breadcrumbs.length >= 1) {
+      this.currentComponent = this.breadcrumbs.pop();
+    }
+
     console.log('My data: ' + this.breadcrumbs);
     this.breadcrumbs.forEach((b) => {
       console.log(b.label, '--', b.url);
