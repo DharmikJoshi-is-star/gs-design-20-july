@@ -10,7 +10,7 @@
       </span>
       &nbsp; /
     </div>
-    <div class="breadcrumb-link">
+    <div class="breadcrumb-link" *ngIf="currentComponent">
       <span> {{ currentComponent.label }}</span>
     </div>
   </div>

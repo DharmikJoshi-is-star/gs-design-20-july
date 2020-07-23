@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { BreadCrumb } from '../breadcrumb.model';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DemoBreadCrumbService } from '../breadcrumb.service';
+import { BreadcrumbService } from '../breadcrumb.service';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -9,32 +9,39 @@ import { DemoBreadCrumbService } from '../breadcrumb.service';
   styleUrls: ['./breadcrumb.component.scss'],
 })
 export class BreadcrumbComponent implements OnInit {
-  public breadcrumbs: BreadCrumb[];
-  public currentComponent: BreadCrumb;
-  constructor(
-    private activatedRoute: ActivatedRoute,
-    private breadcrumbService: DemoBreadCrumbService,
-    private router: Router
-  ) {}
+  public breadcrumbs: BreadCrumb[] = [];
+  public currentComponent: BreadCrumb = null;
 
-  ngOnInit(): void {
-    this.router.events.subscribe((e) => {
-      this.updateBreadCrump();
-    });
+  constructor(
+    public activatedRoute: ActivatedRoute,
+    public breadcrumbService: BreadcrumbService,
+    public router: Router
+  ) {
+    if (router) {
+      router.events.subscribe((e) => {
+        this.updateBreadCrump(this.activatedRoute, this.breadcrumbService);
+      });
+    }
   }
 
-  updateBreadCrump() {
-    this.breadcrumbs = this.breadcrumbService.buildBreadCrumb(
-      this.activatedRoute.root
-    );
+  ngOnInit(): void {}
 
-    if (this.breadcrumbs.length >= 1) {
-      this.currentComponent = this.breadcrumbs.pop();
+  updateBreadCrump(
+    activatedRoute: ActivatedRoute,
+    breadcrumbService: BreadcrumbService
+  ): void {
+    if (activatedRoute) {
+      this.breadcrumbs = breadcrumbService.buildBreadCrumb(activatedRoute.root);
+
+      //console.log(this.breadcrumbs);
+
+      if (this.breadcrumbs.length >= 1) {
+        this.currentComponent = this.breadcrumbs.pop();
+      }
+
+      // this.breadcrumbs.forEach((b) => {
+      //   console.log(b.label, '--', b.url);
+      // });
     }
-
-    console.log('My data: ' + this.breadcrumbs);
-    this.breadcrumbs.forEach((b) => {
-      console.log(b.label, '--', b.url);
-    });
   }
 }

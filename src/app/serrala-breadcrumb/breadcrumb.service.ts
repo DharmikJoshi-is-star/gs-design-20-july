@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { BreadCrumb } from './breadcrumb.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
-export class DemoBreadCrumbService {
+export class BreadcrumbService {
+  constructor() {}
+
   public breadcrumbs: BreadCrumb[] = [];
 
-  buildBreadCrumb(
+  public buildBreadCrumb(
     route: ActivatedRoute,
     url: string = '',
     breadcrumbs: BreadCrumb[] = []
@@ -18,6 +20,7 @@ export class DemoBreadCrumbService {
       route.routeConfig && route.routeConfig.data
         ? route.routeConfig.data.breadcrumb
         : '';
+
     let path =
       route.routeConfig && route.routeConfig.data ? route.routeConfig.path : '';
 
@@ -52,7 +55,7 @@ export class DemoBreadCrumbService {
     return this.breadcrumbs;
   }
 
-  getBredcrumbs(): BreadCrumb[] {
+  public getBredcrumbs(): BreadCrumb[] {
     return this.breadcrumbs;
   }
 }
